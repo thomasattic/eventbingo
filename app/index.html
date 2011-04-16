@@ -25,6 +25,19 @@
        background-color: transparent; */
     }
 
+    .s-pagedecor {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 143px;
+      height: 143px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: 50% 50%;
+    }
+
     #jqt > #z-launcherpane ul.grid {
        display: block;
        /* background-image: none;
@@ -197,7 +210,8 @@
       <div id="z-launcherpane" class="pane form" section="aside">
         <div class="toolbar"><h1>Event Bingo</h1></div>
         <div>
-           <h2 class="big">Event Bingo</h2>
+           <div class="w-openworld s-pagedecor" style="background-image: url(./images/EventBingoLogoTransparent.png);"></div>
+           <div class="big icon" style="background-image: url(./images/EventBingoLogoTransparent.png);"></div>
            <h2>Login with</h2>
            <a href="#begin" class="whiteButton" style="-webkit-user-drag: none; ">Twitter</a>
         </div>
@@ -237,16 +251,16 @@
           </li>
         </ul>
       </form>
-      <form id="joinagame">
+      <form id="joinagame" action="#select">
         <div class="toolbar">
           <h1>Join a game</h1>
           <a href="#" class="back">Back</a>
-<!--          <input type="submit" value="Join Now"/>-->
-          <a class="actionButton" href="#select">Join Now</a>
+<!--          <input type="submit" value="Join now" />-->
+          <a class="actionButton" href="#select">Join now</a>
         </div>
         <ul class="rounded">
           <li>
-             <label for="some_text">Game name</label><input type="text" name="name" placeholder="#GameName" id="some_text">
+             <label for="some_text">Game name</label><input type="text" name="name" data-sourcename="gamename" placeholder="#GameName" id="some_text">
           </li>
         </ul>
       </form>
@@ -255,6 +269,11 @@
           <h1>Select an option</h1>
           <a href="#" class="back">Back</a>
         </div>
+        <ul class="rounded">
+          <li class="">
+             <input name="gamename" value="#gamename"/>
+          </li>
+        </ul>
         <ul class="rounded">
           <li class="arrow">
              <a href="#aboutme">About me</a>
