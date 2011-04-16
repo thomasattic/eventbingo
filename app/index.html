@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html >
   <head>
-  <title>Welcome to Pageforest</title>
+  <title>Event Bingo</title>
   <link rel="icon" type="image/png" href="/images/icon.png" />
   <link rel="apple-touch-icon" href="/images/touch.png" />
 
@@ -218,9 +218,25 @@
            <li class="arrow"><a href="#joinagame">Join a game</a></li>
         </ul>
         <ul class="rounded">
-           <li class="arrow"><a href="#createagme">Create a game</a></li>
+           <li class="arrow"><a href="#createagame">Create a game</a></li>
         </ul>
       </div>
+      <form id="createagame">
+        <div class="toolbar">
+          <h1>Create a game</h1>
+          <a href="#" class="back">Back</a>
+<!--          <input type="submit" value="Join Now"/>-->
+          <a class="actionButton goback" href="#select">Done</a>
+        </div>
+        <ul class="rounded">
+          <li>
+             <label for="some_text">Game name</label><input type="text" name="name" placeholder="#GameName" id="">
+          </li>
+          <li>
+             <label for="some_text">Time</label><input type="number" name="name" placeholder="Minutes" id="some_text">
+          </li>
+        </ul>
+      </form>
       <form id="joinagame">
         <div class="toolbar">
           <h1>Join a game</h1>
@@ -230,7 +246,7 @@
         </div>
         <ul class="rounded">
           <li>
-             <label for="some_text">Game name</label><input type="text" name="name" placeholder="Text" id="some_text">
+             <label for="some_text">Game name</label><input type="text" name="name" placeholder="#GameName" id="some_text">
           </li>
         </ul>
       </form>
@@ -322,14 +338,6 @@
           <li>Tyler<small>7</small></li>
           <li>Paul<small>5</small></li>
         </ul>
-      </form>
-      <form id="createagme">
-        <div class="toolbar">
-          <h1>Create a game</h1>
-          <a href="#" class="back">Back</a>
-        </div>
-        <div>
-        </div>
       </form>
     </div>
     <div class="buttonbar">
