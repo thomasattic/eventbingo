@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<!--
+
+Copyright (c) 2010 appMobi
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+-->
+    <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>Twitter API</title>
+    
+        <script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+        <script type="text/javascript"  src="oauthentica.js"></script>  
+		<script type="text/javascript"  src="appmobitweets.js"></script>  
+	
+	<script>
+	var key="Tf1ribtuLwBxyXV2igL8Og";
+	var secret="ADjfKj2XsoWlSJHwzpAnjsFnRgRtVxWru1ZMvFPSQ";
+	var t = new Twitter(key,secret);
+	
+	var oAuthToken="oauth_token=16367202-sbL6F9e4ztCL3xshAjlPLTLL6m1YK6WpGsggqJb5A&oauth_token_secret=JJ6iwOlUDIiLyCoHhpQ18vL6FD55o14E3EWWYsgh7M&user_id=16367202&screen_name=shahabl";
+
+	
+	function doOnload(){
+		
+
+	}
+	var onDeviceReady=function(){
+
+        //lock orientation
+      //  AppMobi.device.setRotateOrientation("portrait");
+       // AppMobi.device.setAutoRotate(false);
+        
+        //manage power
+        //AppMobi.device.managePower(true,false);
+		if(AppMobi.device.model.indexOf("emulator")!=-1){
+	
+			console.log("XDK Hack Fix");
+		   AppMobi.cache.setCookie("samp_twitter_auth",oAuthToken,-1);
+		   }
+		if(AppMobi.cache.getCookie("samp_twitter_auth")!=undefined)
+		{
+		   accessTokenCB(AppMobi.cache.getCookie("samp_twitter_auth"));
+		}
+		else {
+		   r = t.request_token();
+		}
+	 
+		//t.setAuthentication(r);
+};
+function getDebugStr(myObj)
+{
+   var str="";
+   for (myKey in myObj){
+     str+=(myKey +" = "+myObj[myKey]+"\n");
+   }
+   return str;
+}
+function errorcb(data)
+{
+alert("error with remote call" +data);
+}
+var requestAuth;
+function requestTokenCB(data)
+{
+   
+   requestAuth=qs2json(data);
+   
+   t.setAuthentication(requestAuth);
+   AppMobi.device.showRemoteSite(t.getAuthorizationUrl());
+   //AppMobi.device.showRemoteSite("http://www.twitter.com");
+   //window.open(t.getAuthorizationUrl());
+}
+function twitterAuth()
+{
+   var pin = prompt('Please enter PIN ...');
+   r = t.access_token(pin);
+}
+
+function showtimeline(data)
+{
+   console.log(data);
+   document.getElementById("stuff").innerHTML=data;
+}
+
+function accessTokenCB(data)
+{
+   if(AppMobi.cache.getCookie("samp_twitter_auth")==undefined)
+      AppMobi.cache.setCookie("samp_twitter_auth",data);
+   requestAuth=qs2json(data);  
+   t.setAuthentication(requestAuth);
+}
+
+
+function validTwitterAuth()
+{
+    t.setAuthentication(requestAuth);
+	document.getElementById("createpost").style.display="block";
+   var home_timeline = t.home_timeline();
+   console.log(home_timeline);
+   
+}
+
+
+ function qs2json(qs)
+ {
+    var myObj = new Object;
+    var data=qs.split("&");
+	
+	for(j in data)
+	{
+	   points=data[j].split("=");
+	   myObj[points[0]]=points[1];
+	}
+	return myObj;
+}
+
+function sendUpdate()
+{
+   t.updateStatus(document.getElementById("status").value);
+   
+}
+
+function statusupdate(data)
+{
+   document.getElementById("status").value="";
+   document.getElementById("stuff").innerHTML="Status updated!";
+}
+document.addEventListener("appMobi.device.ready",onDeviceReady,false);   
+document.addEventListener("appMobi.device.remote.close",twitterAuth,false);
+	</script>
+	<body onload="doOnload()" style="color:white">
+<a href="javascript:;" onClick="twitterAuth()">Do Auth</a>
+<br><a href="javascript:;" onClick="t.home_timeline()">Show Timeline</a>
+<div id="createpost">
+Status:
+<textarea  rows=5 cols=40 id="status"></textarea>
+<br>
+<input type="button" onClick="sendUpdate()" value="Update Status...">
+</div>
+<div id="stuff">
+
+</div>
+    </body>
+</html>
