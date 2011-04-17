@@ -136,6 +136,10 @@
       padding: 0 5px;
       z-index: 2;
     }
+    
+    #jqt > * > form .largefont {
+      font-size: 28px;
+    }
 
     .buttonbar.shifted {
       left: 60px;
@@ -162,6 +166,10 @@
     #jqt > * :not(.toolbar) h2.big {
       font-size: 36px; font-weight: bold;
     }
+    /*
+    #tbox {
+        display: none;
+    }*/
   </style>
 
   <!--
@@ -190,9 +198,73 @@
   <script src="./jslib/beedesk/jqt.js" type="application/x-javascript" charset="utf-8"></script>
   <script src="./jslib/lib/jquery.quicksand.js" type="application/x-javascript" charset="utf-8"></script>
 
+  <script src="http://platform.twitter.com/anywhere.js?id=Tf1ribtuLwBxyXV2igL8Og&v=1" type="text/javascript"></script>
+
   <script type="text/javascript">
   namespace.lookup('eventbingo.controller').defineOnce(function (ns) {
     var my = namespace.lookup("eventbingo");
+
+    var gamename = "gamename";
+    var catchphrase = " - The Networking Game - ";
+    $(document).ready(function() {
+      twttr.anywhere(function (T) {
+        T("#tbox").tweetBox();
+      });
+
+      $("#tweet_skills").click(function() {
+        console.error("I got here....");
+        
+        var names = ["skill1", "skill2", "skill3", "skill4", "skill5"];
+        var result;
+
+        result = "#eventbingo " + catchphrase;
+        result += " " + $("#select input[name='" + gamename + "']").val();
+        for (var i=0, len=names.length; i<len; i++) {
+          var $item = $("#aboutme").find("input[name='" + names[i] + "']");
+          if ($item.length > 0) {
+            result += " m#" + $item.val();
+          } 
+        }
+        $("#tweet-box").val(result);
+        console.error("adding to tweet-box...." + result);
+        $("#tweeting-button").click();
+        console.error("click tweet-button...." + result);
+      });
+      $("#tweet_you_skills").click(function() {
+        console.error("I got here (you)....");
+        
+        var names = ["skill1", "skill2", "skill3", "skill4", "skill5"];
+        var result;
+
+        result = "#eventbingo " + catchphrase;
+        result += " " + $("#select input[name='" + gamename + "']").val();
+        for (var i=0, len=names.length; i<len; i++) {
+          var $item = $("#aboutyou").find("input[name='" + names[i] + "']");
+          if ($item.length > 0) {
+            result += " u#" + $item.val();
+          }
+        }
+        $("#tweet-box").val(result);
+        console.error("adding to tweet-box...." + result);
+        $("#tweeting-button").click();
+        console.error("click tweet-button...." + result);
+      });
+      $("#tweet_bingo").click(function() {
+        console.error("I got here (bingo)....");
+
+        var result;
+        result = "#eventbingo ";
+        result += " " + $("#select input[name='" + gamename + "']").val();
+        for (var i=0, len=names.length; i<len; i++) {
+          var $item = $("#aboutyou").find("input[name='" + names[i] + "']");
+          result += " b#" + $item.val(); 
+        }
+        $("#tweet-box").val(result);
+        console.error("adding to tweet-box...." + result);
+        $("#tweeting-button").click();
+        console.error("click tweet-button...." + result);
+      });
+    });
   });
   </script>
   <script id="itemgroup-template" type="text/x-jquery-tmpl">
@@ -244,7 +316,7 @@
         </div>
         <ul class="rounded">
           <li>
-             <label for="some_text">Game name</label><input type="text" name="name" placeholder="#GameName" id="">
+             <label for="some_text">Game name</label><input type="text" name="gamename" placeholder="#GameName" id="">
           </li>
           <li>
              <label for="some_text">Time</label><input type="number" name="name" placeholder="Minutes" id="some_text">
@@ -255,12 +327,12 @@
         <div class="toolbar">
           <h1>Join a game</h1>
           <a href="#" class="back">Back</a>
-<!--          <input type="submit" value="Join now" />-->
-          <a class="actionButton" href="#select">Join now</a>
+          <input type="submit" value="Join now" />
+<!--          <a class="actionButton" href="#select">Join now</a>-->
         </div>
         <ul class="rounded">
           <li>
-             <label for="some_text">Game name</label><input type="text" name="name" data-sourcename="gamename" placeholder="#GameName" id="some_text">
+             <label for="some_text">Game name</label><input type="text" name="gamename" placeholder="#GameName" id="some_text" value="#mobileSEA">
           </li>
         </ul>
       </form>
@@ -269,11 +341,7 @@
           <h1>Select an option</h1>
           <a href="#" class="back">Back</a>
         </div>
-        <ul class="rounded">
-          <li class="">
-             <input name="gamename" value="#gamename"/>
-          </li>
-        </ul>
+<!--        <ul class="edgetoedge"><li><label for="some_text">Game name</label><input class="largefont" name="gamename" value="#gamename" readonly/></li></ul>-->
         <ul class="rounded">
           <li class="arrow">
              <a href="#aboutme">About me</a>
@@ -296,33 +364,33 @@
         </ul>
       </form>
       <form id="aboutme">
-        <div class="toolbar">
+        <div class="toolbar" id="tweet_skills">
           <h1>About me</h1>
           <a href="#" class="back">Back</a>
           <a href="#" class="done">Done</a>
         </div>
         <ul class="edgetoedge">
           <li class="sep" style="-webkit-user-drag: none; ">Skills</li>
-          <li><input type="text" placeholder="Skill 1"></input></li>
-          <li><input type="text" placeholder="Skill 2"></input></li>
-          <li><input type="text" placeholder="Skill 3"></input></li>
-          <li><input type="text" placeholder="Skill 4"></input></li>
-          <li><input type="text" placeholder="Skill 5"></input></li>
+          <li><input type="text" name="skill1" placeholder="Skill 1" value="JavaScript"></input></li>
+          <li><input type="text" name="skill2" placeholder="Skill 2" value="AWS"></input></li>
+          <li><input type="text" name="skill3" placeholder="Skill 3" value="GAE"></input></li>
+          <li><input type="text" name="skill4" placeholder="Skill 4" value="Money"></input></li>
+          <li><input type="text" name="skill5" placeholder="Skill 5" value="Coolness"></input></li>
         </ul>
       </form>
       <form id="aboutyou">
-        <div class="toolbar">
+        <div class="toolbar" id="tweet_you_skills">
           <h1>About you</h1>
           <a href="#" class="back">Back</a>
           <a href="#" class="done">Done</a>
         </div>
         <ul class="edgetoedge">
           <li class="sep" style="-webkit-user-drag: none; ">Skills</li>
-          <li><input type="text" placeholder="Skill 1"></input></li>
-          <li><input type="text" placeholder="Skill 2"></input></li>
-          <li><input type="text" placeholder="Skill 3"></input></li>
-          <li><input type="text" placeholder="Skill 4"></input></li>
-          <li><input type="text" placeholder="Skill 5"></input></li>
+          <li><input type="text" name="skill1" placeholder="Skill 1" value="Money"></input></li>
+          <li><input type="text" name="skill2" placeholder="Skill 2" value="Job"></input></li>
+          <li><input type="text" name="skill3" placeholder="Skill 3" value="JavaScript"></input></li>
+          <li><input type="text" name="skill4" placeholder="Skill 4" value="ASP.net"></input></li>
+          <li><input type="text" name="skill5" placeholder="Skill 5" value="FacebookAPI"></input></li>
         </ul>
       </form>
       <form id="bingo">
@@ -365,5 +433,6 @@
     <div class="buttonbar shifted">
       <span id="randomize">Randomize</span>
     </div>
+    <div id="tbox"></div>
   </body>
 </html>

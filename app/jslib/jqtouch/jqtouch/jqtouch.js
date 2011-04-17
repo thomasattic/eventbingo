@@ -924,6 +924,29 @@
             if (action) {
                 if (action === '#') {
                     goBack({returns: $form.serializeArray()});
+                } else if (action.indexOf('#') === 0) {
+                    
+                    // assume $form is '#jqt > *'
+                    var $el = $form;
+                    var $page = $(action);
+                    console.error("i am here: " + action + " page: " + action);
+                    $el.find('input[name]').each(function(i, input) {
+                      var $input = $(input);
+                      var name = $input.attr('name');
+                      var val = $input.val();
+                      console.warn("looping: " + name + " value: " + val);
+                      var $cursor = $page.find("input[data-sourcename='" + name + "']");
+                      if ($cursor.length === 0) {
+                        $cursor = $page.find("input[name='" + name + "']");
+                      }
+                      console.warn("looping: " + name + " length: " + $cursor.length);
+                      $cursor.val(val);
+                    });
+                    
+                    goTo({
+                        to: action,
+                        animation: 'slide'
+                    });
                 } else {
                     showPageByHref($form.attr('action'), {
                         data: $form.serialize(),
