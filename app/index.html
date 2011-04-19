@@ -136,7 +136,7 @@
       padding: 0 5px;
       z-index: 2;
     }
-    
+
     #jqt > * > form .largefont {
       font-size: 28px;
     }
@@ -208,12 +208,14 @@
     var catchphrase = " - The Networking Game - ";
     $(document).ready(function() {
       twttr.anywhere(function (T) {
-        T("#tbox").tweetBox();
+        T("#tbox").tweetBox({
+          defaultContent: "#eventbingo  - The Networking Game -  undefined m#JavaScript m#AWS m#GAE m#Money m#Coolness"
+        });
       });
 
       $("#tweet_skills").click(function() {
         console.error("I got here....");
-        
+
         var names = ["skill1", "skill2", "skill3", "skill4", "skill5"];
         var result;
 
@@ -223,16 +225,19 @@
           var $item = $("#aboutme").find("input[name='" + names[i] + "']");
           if ($item.length > 0) {
             result += " m#" + $item.val();
-          } 
+          }
         }
-        $("#tweet-box").val(result);
+        //$("#tweet-box").val(result);
+        $("#tweet-box").text(result);
         console.error("adding to tweet-box...." + result);
-        $("#tweeting-button").click();
-        console.error("click tweet-button...." + result);
+        setTimeout(function() {
+          $("#tweeting-button").click();
+        }, 2000);
+        console.error("click tweet-button...." );
       });
       $("#tweet_you_skills").click(function() {
         console.error("I got here (you)....");
-        
+
         var names = ["skill1", "skill2", "skill3", "skill4", "skill5"];
         var result;
 
@@ -244,9 +249,12 @@
             result += " u#" + $item.val();
           }
         }
-        $("#tweet-box").val(result);
+        //$("#tweet-box").val(result);
+        $("#tweet-box").text(result);
         console.error("adding to tweet-box...." + result);
-        $("#tweeting-button").click();
+        setTimeout(function() {
+          $("#tweeting-button").click();
+        }, 1000);
         console.error("click tweet-button...." + result);
       });
       $("#tweet_bingo").click(function() {
@@ -257,7 +265,7 @@
         result += " " + $("#select input[name='" + gamename + "']").val();
         for (var i=0, len=names.length; i<len; i++) {
           var $item = $("#aboutyou").find("input[name='" + names[i] + "']");
-          result += " b#" + $item.val(); 
+          result += " b#" + $item.val();
         }
         $("#tweet-box").val(result);
         console.error("adding to tweet-box...." + result);
@@ -328,7 +336,6 @@
           <h1>Join a game</h1>
           <a href="#" class="back">Back</a>
           <input type="submit" value="Join now" />
-<!--          <a class="actionButton" href="#select">Join now</a>-->
         </div>
         <ul class="rounded">
           <li>
@@ -341,7 +348,6 @@
           <h1>Select an option</h1>
           <a href="#" class="back">Back</a>
         </div>
-<!--        <ul class="edgetoedge"><li><label for="some_text">Game name</label><input class="largefont" name="gamename" value="#gamename" readonly/></li></ul>-->
         <ul class="rounded">
           <li class="arrow">
              <a href="#aboutme">About me</a>
@@ -377,6 +383,7 @@
           <li><input type="text" name="skill4" placeholder="Skill 4" value="Money"></input></li>
           <li><input type="text" name="skill5" placeholder="Skill 5" value="Coolness"></input></li>
         </ul>
+        <div id="tbox"></div>
       </form>
       <form id="aboutyou">
         <div class="toolbar" id="tweet_you_skills">
@@ -433,6 +440,5 @@
     <div class="buttonbar shifted">
       <span id="randomize">Randomize</span>
     </div>
-    <div id="tbox"></div>
   </body>
 </html>
