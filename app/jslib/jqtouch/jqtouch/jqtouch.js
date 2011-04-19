@@ -996,7 +996,7 @@
             }
 
             // Prevent default if we found an internal link (relative or absolute)
-            if ($el && $el.attr('href') /* && !$el.isExternalLink()*/) {
+            if ($el && $el.attr('href') && !$el.isExternalLink()) {
                 _debug('Need to prevent default click behavior');
                 e.preventDefault();
             } else {
@@ -1137,7 +1137,7 @@
                     pageback,
                     search = parseSearch($el.attr('search'));
 
-                if (hash && hash !== '#') {
+                if (hash && hash !== '#' && !$el.isExternalLink()) {
                     // Branch on internal or external href
                     e.stopPropagation();
 
@@ -1189,23 +1189,27 @@
                     fn();
                 }
             }},
-            {name: "external", fn: function($el, e, fn) {
-                // Figure out the animation to use
-                var animation = findAnimation(function(candidate) {
-                    return $el.is(candidate.selector);
-                });
-                var reverse = $el.hasClass('reverse');
+            {name: "dynamic", fn: function($el, e, fn) {
+                if (!$el.isExternalLink()) { // let external link handled by default
+                  // Figure out the animation to use
+                  var animation = findAnimation(function(candidate) {
+                      return $el.is(candidate.selector);
+                  });
+                  var reverse = $el.hasClass('reverse');
 
-                // External href
-                $el.addClass('loading');
-                e.stopPropagation();
-                showPageByHref($el.attr('href'), {
-                    animation: animation,
-                    callback: function() {
-                        $el.removeClass('loading'); setTimeout($.fn.unselect, 250, $el);
-                    },
-                    $referrer: $el
-                });
+                  // External href
+                  $el.addClass('loading');
+                  e.stopPropagation();
+                  showPageByHref($el.attr('href'), {
+                      animation: animation,
+                      callback: function() {
+                          $el.removeClass('loading'); setTimeout($.fn.unselect, 250, $el);
+                      },
+                      $referrer: $el
+                  });
+                } else {
+                  fn();
+                }
             }}
         ];
 
