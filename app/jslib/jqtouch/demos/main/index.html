@@ -70,7 +70,9 @@
 
         <script src="../../jqtouch/jquery-1.5.1.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../../jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
-        <script src="../../extensions/iscroll/iscroll.js" type="application/x-javascript" charset="utf-8"></script>
+        <script src="../../extensions/iscroll/iscroll.js" type="application/javascript" charset="utf-8"></script>
+        <script src="../../extensions/spinningwheel/spinningwheel.js" type="application/javascript" charset="utf-8"></script>
+        <script src="../../extensions/spinningwheel/date.js" type="application/javascript" charset="utf-8"></script>
         <script type="text/javascript" charset="utf-8">
             var jQT = new $.jQTouch({
                 icon: 'jqtouch.png',
@@ -572,6 +574,81 @@
                 </fieldset>
               </div>
             </form>
+            <form id="dialogs" class="" action="#">
+                <div class="toolbar">
+                    <h1>Dialogs</h1>
+                    <a href="#" class="back">Cancel</a>
+                    <input type="submit" value="Done" />
+                </div>
+                <div class="content" >
+                    <ul class="rounded">
+                        <li class="arrow"><a href="#customizableradio"><label class="tight">Customizable Radio</label><input type="text" data-sourcename="reviewinterval" name="starts" value="" id="startendpane-input-starts" readonly /></a></li>
+                        <input type="hidden" data-sourcename="reviewformat" name="reviewformat" value="" />
+                    </ul>
+                    <ul class="rounded">
+                        <li class="arrow">
+                            <a href="#startenddialog" class="multiline dialog inputguard">
+                                <div><label class="tight">Starts</label><input type="text" data-sourcename="starts" name="starts" value="" id="startendpane-input-starts" readonly /></div>
+                                <div><label class="tight">Ends</label><input type="text" data-sourcename="ends" name="ends" value="" id="startendpane-input-ends" readonly/></div>
+                                <input type="hidden" data-sourcename="format" name="startdateformat" value="" readonly />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+            <form id="customizableradio" class="" action="#">
+                <div class="toolbar">
+                    <h1>Customizable Radio</h1>
+                    <a href="#" class="back">Cancel</a>
+                    <input type="submit" value="Done" />
+                </div>
+                <div class="content" id="startendscroll">
+                    <fieldset class="rounded">
+                        <input type="radio" name="reviewinterval" value="Tomorrow" checked />
+                        <input type="radio" name="reviewinterval" value="Weekend" />
+                        <input type="radio" name="reviewinterval" value="Next week" />
+                        <input type="radio" name="reviewinterval" value="Next Month" />
+                        <input type="radio" name="reviewinterval" value="Next Year" />
+                        <a href="#datetimedialog" class="dialog">
+                            <input type="radio" data-sourcename="starts" name="reviewinterval" title="Custom..." class="showvalue" value="" />
+                            <input type="hidden" data-sourcename="format" name="reviewformat" value="" />
+                        </a>
+                    </fieldset>
+                </div>
+            </form>
+            <form id="startenddialog" class="datewheelpane" action="#">
+                <!-- experimental -- early version, format and behaviour might change -->
+                <div class="toolbar">
+                    <h1>Start & End</h1>
+                    <a href="#" class="back">Cancel</a>
+                    <input type="submit" value="Done" />
+                </div>
+                <div class="content" id="startendscroll">
+                    <ul class="rounded">
+                        <li class="selected sw-starts activable"><label class="tight">Starts</label><input type="text" name="starts" value="Wed, May 23, 2000 22:55 AM" title="Starts" checked readonly /></li>
+                        <li class="sw-ends activable"><label class="tight">Ends</label><input type="text" name="ends" value="Wed, May 23, 2000 22:55 AM" title="Ends" readonly /></li>
+                        <li><label>All-day</label><input type="checkbox" class="onoff sw-allday"></li>
+                    </ul>
+                    <input type="hidden" name="format" value=""/>
+                </div>
+                <div class="sw-slots-wrapper"><div class="sw-frame"></div><div class="sw-slots"></div></div>
+            </form>
+            <form id="datetimedialog" class="datewheelpane" action="#">
+                <!-- experimental -- early version, format and behaviour might change -->
+                <div class="toolbar">
+                    <h1>Date Time</h1>
+                    <a href="#" class="back">Cancel</a>
+                    <input type="submit" value="Done" />
+                </div>
+                <div class="content" id="datetimescroll">
+                    <ul class="rounded">
+                        <li class="sw-starts activable"><label class="tight sw-starts">Time</label><input type="text" name="starts" value="Wed, May 23, 2000 22:55 AM" checked readonly/></li>
+                        <li><label class="tight">All-day</label><input type="checkbox" class="onoff sw-allday"></li>
+                    </ul>
+                    <input type="hidden" name="format" value=""/>
+                </div>
+                <div class="sw-slots-wrapper"><div class="sw-frame"></div><div class="sw-slots"></div></div>
+            </form>
             <div id="choicepane" class="choicepane">
               <div class="choicefloat">
                 <a href="#grid" class="pushbutton white backward">Open in Safari</a>
@@ -666,6 +743,7 @@
                   <form class="s-scrollpane" id="homepane">
                     <ul class="rounded">
                         <li class="arrow"><a href="#ui">User Interface<small class="counter">13</small></a></li>
+                        <li class="arrow"><a href="#dialogs">Dialogs<small class="counter">2</small></a></li>
                         <li class="arrow"><a href="#animations">Animations<small class="counter">8</small></a></li>
                         <li class="arrow"><a href="#ajax">AJAX<small class="counter">3</small></a></li>
                         <li class="arrow"><a href="#callbacks">Events<small class="counter">3</small></a></li>
