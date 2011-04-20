@@ -52,13 +52,13 @@ function getTokens(consumerName) {
                               +"\n"+requestAccess.responseText);
                     }
                 };
-                requestAccess.open(message.method, message.action, true); 
+                requestAccess.open(message.method, message.action, true);
                 requestAccess.setRequestHeader("Authorization", OAuth.getAuthorizationHeader("", message.parameters));
                 requestAccess.send();
             }
         }
     };
-    requestToken.open(message.method, message.action, true); 
+    requestToken.open(message.method, message.action, true);
     requestToken.setRequestHeader("Authorization", authorizationHeader);
     requestToken.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     requestToken.send(requestBody);

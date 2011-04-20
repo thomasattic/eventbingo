@@ -27,6 +27,19 @@ consumer.madgex =
   }
 };
 
+consumer.gmail =
+{ consumerKey   : "________"
+, consumerSecret: "_______________"
+, scope               : "https://mail.google.com/"
+, serviceProvider:
+  { signatureMethod     : "HMAC-SHA1"
+  , requestTokenURL     : "https://www.google.com/accounts/OAuthGetRequestToken"
+  , userAuthorizationURL: "https://www.google.com/accounts/OAuthAuthorizeToken"
+  , accessTokenURL      : "https://www.google.com/accounts/OAuthGetAccessToken"
+  , echoURL             : "http://localhost/oauth-provider/echo"
+  }
+};
+
 consumer.mediamatic =
 { consumerKey   : "e388e4f4d6f4cc10ff6dc0fd1637da370478e49e2"
 , consumerSecret: "0b062293b6e29ec91a23b2002abf88e9"
@@ -86,7 +99,7 @@ consumer.signForm =
 function signForm(form, etc) {
     form.action = etc.URL.value;
     var accessor = { consumerSecret: etc.consumerSecret.value
-                   , tokenSecret   : etc.tokenSecret.value};
+                   , tokenSecret   : etc.tokenSecret.value };
     var message = { action: form.action
                   , method: form.method
                   , parameters: []
@@ -104,7 +117,7 @@ function signForm(form, etc) {
     //alert(outline("message", message));
     var parameterMap = OAuth.getParameterMap(message.parameters);
     for (var p in parameterMap) {
-        if (p.substring(0, 6) == "oauth_"
+        if ((p.substring(0, 6) == "oauth_" || p == "scope")
          && form[p] != null && form[p].name != null && form[p].name != "")
         {
             form[p].value = parameterMap[p];
