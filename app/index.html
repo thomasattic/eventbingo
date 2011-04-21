@@ -25,7 +25,7 @@
        background-color: transparent; */
     }
 
-    .s-pagedecor {
+    .s-pagedecor, .s-pagedecor {
       display: block;
       margin-top: 10px;
       margin-bottom: 10px;
@@ -36,6 +36,11 @@
       background-repeat: no-repeat;
       background-size: contain;
       background-position: 50% 50%;
+    }
+
+    .s-pagesmalldecor {
+      width: 71px;
+      height: 71px;
     }
 
     #jqt > #z-launcherpane ul.grid {
@@ -184,6 +189,7 @@
      API reference: http://code.google.com/p/pageforest/wiki/ClientLibrary
     -->
 
+  <script src="http://platform.twitter.com/anywhere.js?id=95l30nzYnBkbk19ISJDpA&amp;v=1" type="text/javascript"></script>
   <script src="./jslib/jqtouch/jqtouch/jquery-1.5.1.js" type="text/javascript" charset="utf-8"></script>
   <script src="./jslib/pageforest/namespace.js" type="application/x-javascript" charset="utf-8"></script>
   <script src="./jslib/lib/date.js" type="application/x-javascript" charset="utf-8"></script>
@@ -198,8 +204,6 @@
   <script src="./jslib/beedesk/jqt.js" type="application/x-javascript" charset="utf-8"></script>
   <script src="./jslib/lib/jquery.quicksand.js" type="application/x-javascript" charset="utf-8"></script>
 
-  <script src="http://platform.twitter.com/anywhere.js?id=Tf1ribtuLwBxyXV2igL8Og&v=1" type="text/javascript"></script>
-
   <script type="text/javascript">
   namespace.lookup('eventbingo.controller').defineOnce(function (ns) {
     var my = namespace.lookup("eventbingo");
@@ -212,6 +216,48 @@
           defaultContent: "#eventbingo  - The Networking Game -  undefined m#JavaScript m#AWS m#GAE m#Money m#Coolness"
         });
       });
+      $("#ourtwitterbutton").bind("click", function() {
+        twttr.anywhere(function (T) {
+          if(T.isConnected()){
+            jqt.goTo("#begin", "slide");
+          } else {
+            T.signIn();
+          }
+        });
+      });
+      twttr.anywhere(function (T) {
+        T.bind("authComplete", function (e, user) {
+          jqt.goTo("#begin", "slide");
+        });
+        T.bind("signOut", function (e) {
+          // triggered when user logs out
+        });
+      });
+      /*
+      var gone;
+      setInterval(function() {
+        twttr.anywhere(function(T) {
+          if(T.isConnected() && !gone){
+            gone = true;
+            setTimeout(function() {
+              jqt.goTo("#begin", "slide");
+            }, 1000);
+          }
+        });
+      }, 1000);
+      */
+      /*
+      twttr.anywhere(function (T) {
+        T("#twitterlogin-button").connectButton({ size: 'large' });
+      });*/
+      /*
+      twttr.anywhere(function(twitter) {
+        if(twitter.isConnected()){
+            alert('Welcome, you are connected');
+        } else {
+            twitter(".comments").connectButton();
+        }
+      });*/
 
       $("#tweet_skills").click(function() {
         console.error("I got here....");
@@ -291,9 +337,9 @@
         <div class="toolbar"><h1>Event Bingo</h1></div>
         <div>
            <div class="w-openworld s-pagedecor" style="background-image: url(./images/EventBingoLogoTransparent.png);"></div>
-           <div class="big icon" style="background-image: url(./images/EventBingoLogoTransparent.png);"></div>
            <h2>Login with</h2>
-           <a href="#begin" class="whiteButton" style="-webkit-user-drag: none; ">Twitter</a>
+<!--           <div style="margin-left: 50px; margin-right: auto;"><span id="twitterlogin-button" style="-webkit-user-drag: none; "></span></div>-->
+           <div href="#begin" id="ourtwitterbutton" class="whiteButton" style="-webkit-user-drag: none; ">Twitter</div>
         </div>
         <div class="showoninit emboss">
             <div class="spinner animate" style="width: 26px; height: 26px; margin: -8px 0;">
@@ -308,12 +354,15 @@
           <h1>Event Bingo</h1>
           <a href="#" class="back">Back</a>
         </div>
-        <ul class="rounded">
-           <li class="arrow"><a href="#joinagame">Join a game</a></li>
-        </ul>
-        <ul class="rounded">
-           <li class="arrow"><a href="#createagame">Create a game</a></li>
-        </ul>
+        <div>
+          <div class="w-openworld s-smallpagedecor" style="background-image: url(./images/EventBingoLogoTransparent.png);"></div>
+          <ul class="rounded">
+             <li class="arrow"><a href="#joinagame">Join a game</a></li>
+          </ul>
+          <ul class="rounded">
+             <li class="arrow"><a href="#createagame">Create a game</a></li>
+          </ul>
+        </div>
       </div>
       <form id="createagame">
         <div class="toolbar">
