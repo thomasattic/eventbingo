@@ -1,0 +1,63 @@
+<html> 
+<head>
+</head>
+<body>
+<script type="text/javascript" src="jsr_class.js"> </script>
+<script type="text/javascript" charset="utf-8" language=”javascript”>
+
+// for twitter search API see: http://apiwiki.twitter.com/w/page/22554756/Twitter-Search-API-Method:-search
+// for dynamic script tag see: http://www.xml.com/pub/a/2005/12/21/json-dynamic-script-tag.html
+// for url encoding see: http://en.wikipedia.org/wiki/URL_encoding
+
+/*
+	This function shows how to parse the JSON response that's the result of twitter search.
+	The code below creates two arrays, one with the user names and the other number of hits for that user
+*/
+function parseResponse(response)
+{
+	//alert("count = "+response.results.length);
+	var users= new Array() ;
+	var userCount= new Array() ;
+	for(i=0; i<response.results.length; i++) {
+		//alert(response.results[i].text);  // do what you like here
+		//search if the user already in users
+		var existed = false;
+		for(j=0; j<users.length; j++) {
+			if(response.results[i].from_user == users[j]) 
+			{
+				existed = true;
+				userCount[j]++;
+				break;
+			}
+		}
+		if(!existed) {
+			users.push(response.results[i].from_user);
+			userCount.push(1);
+			//alert("user added: " + response.results[i].from_user);
+		}
+	}
+	for(j=0; j<users.length; j++) {
+		alert("user " + users[j] + " has " + userCount[j] + " hits!");
+	}
+}
+
+/*
+	Search for all tweets containing "#eventbingo" & "r:roomName" & "a:bingo"
+*/
+function searchTwitter(roomName)
+{
+	var req = 'http://search.twitter.com/search.json?callback=parseResponse&q=%23eventbingo%20r%3A'+roomName+'%20a%3Abingo';
+	// The following is a simple way to send a request and get the response back.  Note the callback function defined in the url above
+	// there might be some issues with this approach, it's used here only for simplicity
+	scrReq = new JSONscriptRequest(req);
+	scrReq.buildScriptTag();
+	scrReq.addScriptTag();
+}
+
+</script>
+<h1>
+Hello 
+</h1>
+<button id="btn1" type="button" onclick="searchTwitter('AWS');">Search Twitter for room AWS bingos</button>
+</body>
+</html> 
